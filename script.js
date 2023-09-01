@@ -111,6 +111,3 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
     }
 }
 
-baseElem.addEventListener('click', () => {
-    clickCount(++iClick, baseInfo);
-});
