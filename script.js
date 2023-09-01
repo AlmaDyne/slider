@@ -93,7 +93,7 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
     }
 
     function displayData() {
-        baseInfo.innerHTML = 'k ≈ ' + k.toFixed(2);
+        baseInfo.innerHTML = 'Ratio = ' + (k * step).toFixed(2);
         baseInfo.innerHTML += '<br>x = ' + x;
         baseInfo.innerHTML += '<br>ScaleX = ' + scaleX;
         baseInfo.innerHTML += '<br>Value = ' + sliderElem.dataset.value;
