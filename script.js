@@ -14,10 +14,11 @@ options.onclick = () => {
     sliderFunc(slider, +paramValue.value, +paramminLimit.value, +parammaxLimit.value, +paramStep.value);
 };
 
-//sliderFunc(slider, 0, 1, 1, 1);
+//sliderFunc(slider, 0, 1, 4, 2);
 
 function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
     if (maxLimit < minLimit) maxLimit = minLimit;
+    if (step < 0) step = 0;
 
     const level = sliderElem.querySelector('.thumb');
     const sliderRange = sliderElem.offsetWidth - level.offsetWidth;
@@ -59,25 +60,26 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
             if (x > sliderRange) x = sliderRange;
 
             if ((x > lastX) && (Math.floor(x / k / step) != scaleX)) {
-                level.style.left = x + 'px';
-                
                 scaleX = Math.floor(x / k / step);
                 value = scaleX * step + minValue;
                 sliderElem.setAttribute('data-value', value);
                 x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x увеличивается)
                 lastX = x;
+
+                level.style.left = x + 'px';
                 
                 displayData();
+
             }
             
             if ((x < lastX) && (Math.ceil(x / k / step) != scaleX)) {
-                level.style.left = x + 'px';
-
                 scaleX = Math.ceil(x / k / step);
                 value = scaleX * step + minValue;
                 sliderElem.setAttribute('data-value', value);
                 x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x уменьшается)
                 lastX = x;
+
+                level.style.left = x + 'px';
 
                 displayData();
             }
