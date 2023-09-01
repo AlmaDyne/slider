@@ -17,31 +17,31 @@ const docWidth = Math.max(
 const slider = document.getElementById('slider');
 const options = document.getElementById('options');
 const paramValue = document.getElementById('param-value');
-const paramMinRange = document.getElementById('param-min-range');
-const paramMaxRange = document.getElementById('param-max-range');
+const paramminLimit = document.getElementById('param-min-range');
+const parammaxLimit = document.getElementById('param-max-range');
 const paramStep = document.getElementById('param-step');
 
 options.onclick = () => {
-    sliderFunc(slider, +paramValue.value, +paramMinRange.value, +paramMaxRange.value, +paramStep.value);
+    sliderFunc(slider, +paramValue.value, +paramminLimit.value, +parammaxLimit.value, +paramStep.value);
 };
 
 //sliderFunc(slider, 100, 0, 99, 7);
 
-function sliderFunc(sliderElem, value, minRange, maxRange, step) {
-    if (maxRange < minRange) maxRange = minRange;
+function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
+    if (maxLimit < minLimit) maxLimit = minLimit;
 
     const level = sliderElem.querySelector('.thumb');
     const sliderRange = sliderElem.offsetWidth - level.offsetWidth;
-    const scaleRange = maxRange - minRange;
+    const scaleRange = maxLimit - minLimit;
     const k = sliderRange / scaleRange; // Коэффициент преобразования шкалы
     const xMax = Math.round(Math.floor(scaleRange / step) * step * k); // Макс. x для макс. ScaleX
     const xMin = 0;
-    const maxValue = Math.floor(scaleRange / step) * step + minRange;
-    const minValue = minRange;
+    const maxValue = Math.floor(scaleRange / step) * step + minLimit;
+    const minValue = minLimit;
 
-    value = Math.round((value - minRange) / step) * step + minRange;
-    if (value < minRange) value = minValue;
-    if (value > maxRange) value = maxValue;
+    value = Math.round((value - minLimit) / step) * step + minLimit;
+    if (value < minLimit) value = minValue;
+    if (value > maxLimit) value = maxValue;
     sliderElem.setAttribute('data-value', value);
 
     let x = (k != Infinity) ? Math.round((value - minValue) * k) : xMin; // Значение x относительно начального value
@@ -75,7 +75,7 @@ function sliderFunc(sliderElem, value, minRange, maxRange, step) {
                 level.style.left = x + 'px';
                 
                 scaleX = Math.floor(x / k / step);
-                value = scaleX * step + minRange;
+                value = scaleX * step + minLimit;
                 sliderElem.setAttribute('data-value', value);
                 x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x увеличивается)
                 lastX = x;
@@ -87,7 +87,7 @@ function sliderFunc(sliderElem, value, minRange, maxRange, step) {
                 level.style.left = x + 'px';
 
                 scaleX = Math.ceil(x / k / step);
-                value = scaleX * step + minRange;
+                value = scaleX * step + minLimit;
                 sliderElem.setAttribute('data-value', value);
                 x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x уменьшается)
                 lastX = x;
