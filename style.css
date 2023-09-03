@@ -81,21 +81,22 @@ body {
     background-color: rgb(0, 245, 0);
     /*background: linear-gradient(to right bottom, #34ff21, #1dffff);*/
     width: 310px;
-    height: 15px;
+    height: 17px;
     margin-top: 50px;
     text-align: center;
     border: 1px solid #cfbbe0;
+    box-sizing: border-box;
 }
 .slider > p {
     margin-top: 12px;
 } 
 .thumb {
     width: 10px;
-    height: 25px;
+    height: 28px;
     border-radius: 3px;
     position: relative;
     left: 10px;
-    top: -5px;
+    top: -6px;
     background-color: rgb(0, 0, 255);
     cursor: pointer;
 }
