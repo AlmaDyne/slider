@@ -38,6 +38,7 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
 
     level.style.left = x + 'px';
 
+    changeColor();
     displayData();
 
     sliderElem.ondragstart = false;
@@ -54,6 +55,8 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
         document.addEventListener('mouseup', levelRelease);
     
         function levelMove(event) {
+            let isShift = false;
+
             x = event.clientX - shiftX - sliderElem.getBoundingClientRect().left;
 
             if (x < 0) x = 0;
@@ -61,26 +64,23 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
 
             if ((x > lastX) && (Math.floor(x / k / step) != scaleX)) {
                 scaleX = Math.floor(x / k / step);
-                value = scaleX * step + minValue;
-                sliderElem.setAttribute('data-value', value);
-                x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x увеличивается)
-                lastX = x;
-
-                level.style.left = x + 'px';
-                
-                displayData();
-
+                isShift = true;
             }
             
             if ((x < lastX) && (Math.ceil(x / k / step) != scaleX)) {
                 scaleX = Math.ceil(x / k / step);
+                isShift = true;
+            }
+
+            if (isShift) {
                 value = scaleX * step + minValue;
                 sliderElem.setAttribute('data-value', value);
-                x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX (x уменьшается)
+                x = Math.round(scaleX * k * step); // Подсчитать значение x относительно scaleX
                 lastX = x;
 
                 level.style.left = x + 'px';
 
+                changeColor();
                 displayData();
             }
         }
@@ -90,6 +90,27 @@ function sliderFunc(sliderElem, value, minLimit, maxLimit, step) {
             document.removeEventListener('mousemove', levelMove);
             document.removeEventListener('mouseup', levelRelease);
         }
+    }
+
+    function changeColor() {
+        const maxColorValue = 245;
+        let xRatio = x / sliderRange,
+            colorDivider = 0.75,
+            colorRed,
+            colorGreen,
+            colorBlue;
+
+        if (xRatio <= colorDivider) {
+            colorGreen = maxColorValue;
+            colorRed = maxColorValue * xRatio * (1 / colorDivider);
+            colorBlue = 0;
+        } else {
+            colorRed = maxColorValue;
+            colorBlue = maxColorValue * (xRatio - colorDivider) * colorDivider;
+            colorGreen = maxColorValue - maxColorValue * (xRatio - colorDivider) * (1 / (1 - colorDivider)) + colorBlue;
+        }
+
+        sliderElem.style.backgroundColor = `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`;
     }
 
     function displayData() {
