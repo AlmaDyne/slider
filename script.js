@@ -24,12 +24,18 @@ function sliderFunc(sliderElem, minLimit, maxLimit, value, step, showValue = tru
     const k = sliderRange / scaleRange; // Коэффициент преобразования новой шкалы от длины слайдера
     const minValue = minLimit;
     const maxValue = Math.floor(scaleRange / step) * step + minValue;
+    const SHOW_VALUE_TIME_DELAY = 200;
     let showValueTimer = null;
 
     value = Math.round((value - minValue) / step) * step + minValue;
     if (value < minLimit) value = minValue;
     if (value > maxLimit) value = maxValue;
+
+    sliderElem.setAttribute('data-minLimit', minLimit);
+    sliderElem.setAttribute('data-maxLimit', maxLimit);
     sliderElem.setAttribute('data-value', value);
+    sliderElem.setAttribute('data-step', step);
+    sliderElem.setAttribute('data-showValue', showValue);
 
     let scaleX = (value - minValue) / step; // Номер деления на новой шкале для value
     let x = (k != Infinity) ? Math.round((value - minValue) * k) : 0; // Значение x относительно начального value
@@ -57,6 +63,7 @@ function sliderFunc(sliderElem, minLimit, maxLimit, value, step, showValue = tru
     function sliderStart(event) {
         event.preventDefault();
         if (event.target != marker) return;
+        if (sliderElem.hasAttribute('data-disabled')) return;
 
         if (valueOutput) {
             clearTimeout(showValueTimer);
@@ -92,7 +99,7 @@ function sliderFunc(sliderElem, minLimit, maxLimit, value, step, showValue = tru
 
             if (isShift) {
                 value = scaleX * step + minValue;
-                x = Math.round(scaleX * k * step); // Подсчитать целое значение x относительно scaleX
+                x = Math.round(scaleX * k * step); // Целое значение x относительно scaleX
                 lastX = x;
 
                 marker.style.left = x + 'px';
@@ -111,7 +118,7 @@ function sliderFunc(sliderElem, minLimit, maxLimit, value, step, showValue = tru
         function releaseMarker() {
             document.documentElement.style.cursor = '';
 
-            if (valueOutput) showValueTimer = setTimeout(() => valueOutput.hidden = true, 250);
+            if (valueOutput) showValueTimer = setTimeout(() => valueOutput.hidden = true, SHOW_VALUE_TIME_DELAY);
 
             document.removeEventListener('pointermove', moveMarker);
             document.removeEventListener('pointerup', releaseMarker);
@@ -146,3 +153,4 @@ function sliderFunc(sliderElem, minLimit, maxLimit, value, step, showValue = tru
         baseInfo.innerHTML += '<br>Value = ' + sliderElem.dataset.value;
     }
 }
+
