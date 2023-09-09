@@ -2,32 +2,26 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Move'n'Put</title>
-        <link rel="preload" as="audio" href="sounds/Start.mp3">
-        <link rel="preload" as="audio" href="sounds/Win.mp3">
-        <link rel="preload" as="audio" href="sounds/End.mp3">
-        <link rel="preload" as="audio" href="sounds/Whooaaaaa-1.mp3">
-        <link rel="preload" as="audio" href="sounds/Whooaaaaa-2.mp3">
-        <link rel="preload" as="audio" href="sounds/Whooaaaaa-3.mp3">
+        <title>Slider</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="document-area" class="screen-limiter">
-            <div id="qwe" class="amount-wrap">
-                <label for="figures-amount">Figures Amount</label>
-                <input id="figures-amount" type="number" value="6" min="1" max="6">
-                <button id="refresh-button"><b>Refresh</b></button>
+        <div class="slider-block">
+            <div class="parameters">
+                <label>Value = <input id="param-value" type="number" value="80" min="0"></label>
+                <label>Min limit of range = <input id="param-min-range" type="number" value="60" min="0"></label>
+                <label>Max limit of range = <input id="param-max-range" type="number" value="180" min="0"></label>
+                <label>Step = <input id="param-step" type="number" value="6" min="1"></label>
+                <button id="options"><b>Set slider parameters</b></button>
             </div>
-            <div id="bank">
-                <h2>Reliable Bank</h2>
-                <div id="inner-bank" class="hover-on"></div>
+            <div id="slider" class="slider">
+                <div class="thumb"></div>
+                <p>Length = 300px</p>
             </div>
-            <button id="sound-switcher" class="hover-on">
-                <img id="speaker" src="images/speaker.png" alt="speaker">
-            </button>
-            <div id="assorted-figures"></div>
-            <!--<div id="center-mark" class=""></div>-->
         </div>
-        <script src="script.js" type="module"></script>
+        <div id="base-elem">
+            <p><b>Score:</b></p>
+        </div>
+        <script src="script.js"></script>
     </body>
 </html>
