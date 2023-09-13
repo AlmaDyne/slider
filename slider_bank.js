@@ -1,105 +1,4 @@
-'use strict';
-
-const dataOutput = document.getElementById('data-output');
-dataOutput.insertAdjacentHTML('beforeend', '<p class="data-info">(Not setted)</p>');
-const dataInfo = document.querySelector('.data-info');
-
-const singleSlider = document.getElementById('single-slider');
-const paramSingleValue = document.getElementById('param-single-value');
-const paramSingleMinLimit = document.getElementById('param-single-min-range');
-const paramSingleMaxLimit = document.getElementById('param-single-max-range');
-const paramSingleStep = document.getElementById('param-single-step');
-const btnActiveSingle = document.getElementById('btn-active-single');
-const btnDisableSingle = document.getElementById('btn-disable-single');
-const btnEnableSingle = document.getElementById('btn-enable-single');
-
-btnActiveSingle.onclick = () => {
-    sliderBank.enable(singleSlider);
-
-    dataOutput.querySelector('.data-output > .data-info').style.textAlign = 'left';
-    dataOutput.querySelector('.data-output > .data-info').style.marginLeft = '30px';
-
-    sliderBank.activate(
-        singleSlider,
-        1,
-        +paramSingleMinLimit.value,
-        +paramSingleMaxLimit.value,
-        +paramSingleValue.value,
-        +paramSingleStep.value,
-        true
-    );
-
-    btnDisableSingle.disabled = false;
-    btnEnableSingle.disabled = true;
-};
-btnDisableSingle.onclick = () => {
-    sliderBank.disable(singleSlider);
-
-    btnEnableSingle.disabled = false;
-    btnDisableSingle.disabled = true;
-};
-btnEnableSingle.onclick = () => {
-    sliderBank.enable(singleSlider);
-
-    btnDisableSingle.disabled = false;
-    btnEnableSingle.disabled = true;
-};
-
-//sliderBank.activate(singleSlider, 1, 0, 200, 100, 1, true);
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-const rangeSlider = document.getElementById('range-slider');
-const paramValue1 = document.getElementById('param-range-value1');
-const paramValue2 = document.getElementById('param-range-value2');
-const paramMinLimit = document.getElementById('param-range-min-range');
-const paramMaxLimit = document.getElementById('param-range-max-range');
-const paramStep = document.getElementById('param-range-step');
-const btnActiveRange = document.getElementById('btn-active-range');
-const btnDisableRange = document.getElementById('btn-disable-range');
-const btnEnableRange = document.getElementById('btn-enable-range');
-
-btnActiveRange.onclick = () => {
-    sliderBank.enable(rangeSlider);
-
-    const markers = rangeSlider.querySelectorAll('.thumb');
-    markers.forEach(marker => {
-        marker.innerHTML = '';
-        marker.className = 'thumb';
-    });
-
-    dataOutput.querySelector('#data-output > .data-info').style.textAlign = 'left';
-    dataOutput.querySelector('#data-output > .data-info').style.marginLeft = '30px';
-
-    sliderBank.activate(
-        rangeSlider,
-        2,
-        +paramMinLimit.value,
-        +paramMaxLimit.value,
-        +paramValue1.value,
-        +paramValue2.value,
-        +paramStep.value
-    );
-
-    btnDisableRange.disabled = false;
-    btnEnableRange.disabled = true;
-};
-btnDisableRange.onclick = () => {
-    sliderBank.disable(rangeSlider);
-
-    btnEnableRange.disabled = false;
-    btnDisableRange.disabled = true;
-};
-btnEnableRange.onclick = () => {
-    sliderBank.enable(rangeSlider);
-
-    btnDisableRange.disabled = false;
-    btnEnableRange.disabled = true;
-};
-
-//sliderBank.activate(rangeSlider, 2, 0, 100, 75, 25, 1);
-
-///////////////////////////////////////////////////////////////////////////////////////
+export { sliderBank };
 
 const sliderBank = {
     activate,
@@ -108,7 +7,7 @@ const sliderBank = {
 };
 
 function activate(...args) {
-    const type = args[1]; // Type of slider
+    const type = args[1];
 
     args.splice(1, 1);
 
@@ -130,7 +29,7 @@ function activate(...args) {
         const marker = sliderElem.querySelector('.thumb');
         const sliderRange = sliderElem.clientWidth - marker.offsetWidth;
         const scaleRange = maxLimit - minLimit;
-        const k = sliderRange / scaleRange; // Коэффициент преобразования новой шкалы от длины слайдера
+        const k = sliderRange / scaleRange;
         const ratio = k * step;
         const minValue = minLimit;
         const maxValue = Math.floor(scaleRange / step) * step + minValue;
@@ -150,14 +49,13 @@ function activate(...args) {
         sliderElem.setAttribute('data-step', step);
         sliderElem.setAttribute('data-show-value', showValue);
 
-        let scaleX = (value - minValue) / step; // Номер деления на новой шкале для value
-        let x = (ratio && ratio != Infinity) ? Math.round((value - minValue) * k) : 0; // Значение x относительно начального value
+        let scaleX = (value - minValue) / step;
+        let x = (ratio && ratio != Infinity) ? Math.round((value - minValue) * k) : 0;
         let lastX = x;
 
         marker.style.left = x + 'px';
 
         changeBandColor();
-        displayData();
 
         if (showValue) {
             valueOutput = document.createElement('span');
@@ -174,8 +72,6 @@ function activate(...args) {
             event.preventDefault();
             if (event.target != marker) return;
             if (sliderElem.hasAttribute('data-disabled')) return;
-
-            displayData();
 
             if (valueOutput) {
                 clearTimeout(showValueTimer);
@@ -212,7 +108,7 @@ function activate(...args) {
 
                 if (isShift) {
                     value = scaleX * step + minValue;
-                    x = Math.round(scaleX * k * step); // Целое значение x относительно scaleX
+                    x = Math.round(scaleX * k * step);
                     lastX = x;
 
                     marker.style.left = x + 'px';
@@ -224,7 +120,6 @@ function activate(...args) {
                     }
 
                     changeBandColor();
-                    displayData();
                 }
             }
 
@@ -259,17 +154,7 @@ function activate(...args) {
             sliderElem.style.backgroundColor = `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`;
             sliderElem.setAttribute('data-band-color', getComputedStyle(sliderElem).backgroundColor);
         }
-
-        function displayData() {
-            dataOutput.firstElementChild.innerHTML = '<b>Single slider data:</b>';
-            dataInfo.innerHTML = 'Ratio = ' + ratio.toFixed(2);
-            dataInfo.innerHTML += '<br>Marker | x = ' + parseInt(marker.style.left);
-            dataInfo.innerHTML += '<br>Marker | ScaleX = ' + scaleX;
-            dataInfo.innerHTML += '<br>Slider | Value = ' + sliderElem.dataset.value;
-        }
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
 
     function useRangeSlider(sliderElem, minLimit, maxLimit, value1, value2, step) {
         if (maxLimit < minLimit) maxLimit = minLimit;
@@ -282,7 +167,7 @@ function activate(...args) {
         const markerWidth = marker1.offsetWidth;
         const sliderRange = sliderElem.clientWidth - markerWidth;
         const scaleRange = maxLimit - minLimit;
-        const k = sliderRange / scaleRange; // Коэффициент преобразования новой шкалы от длины слайдера
+        const k = sliderRange / scaleRange;
         const ratio = k * step;
         const minValue = minLimit;
         const maxValue = Math.floor(scaleRange / step) * step + minValue;
@@ -317,8 +202,7 @@ function activate(...args) {
             const marker = markers[i - 1];
             const value = +sliderElem.getAttribute('data-value' + i);
             const scaleX = (value - minValue) / step;
-            const x = (ratio && ratio != Infinity) ? // Значение x относительно начального value
-                Math.round((value - minValue) * k) : 0;
+            const x = (ratio && ratio != Infinity) ? Math.round((value - minValue) * k) : 0;
 
             marker.style.left = x + 'px';
 
@@ -334,7 +218,6 @@ function activate(...args) {
         }
 
         changeSelectedRange();
-        displayData();
 
         sliderElem.ondragstart = () => false;
         sliderElem.ontouchstart = () => false;
@@ -345,8 +228,6 @@ function activate(...args) {
             if (!event.target.classList.contains('thumb')) return;
             if (sliderElem.hasAttribute('data-disabled')) return;
 
-            displayData();
-
             let marker = event.target;
             let otherMarker = (marker == marker1) ? marker2 : marker1;
             let value = +marker.dataset.value;
@@ -354,7 +235,7 @@ function activate(...args) {
             let scaleX = +marker.dataset.scaleX;
             let lastX = +marker.dataset.lastX;
             let shiftX = event.clientX - marker.getBoundingClientRect().left;
-            let n = marker.classList.contains('left') ? 1 : 2; // Номер маркера, соответствующий номеру value элемента sliderElem
+            let n = marker.classList.contains('left') ? 1 : 2;
             let lastN = n;
 
             valueOutput = marker.querySelector('.value-output');
@@ -386,7 +267,7 @@ function activate(...args) {
 
                 if (isShift) {
                     value = scaleX * step + minValue;
-                    x = Math.round(scaleX * k * step); // Целое значение x относительно scaleX
+                    x = Math.round(scaleX * k * step);
                     lastX = x;
 
                     marker.style.left = x + 'px';
@@ -417,10 +298,9 @@ function activate(...args) {
                     
                     sliderElem.setAttribute('data-value' + n, value);
 
-                    // Если при быстром движении метка перехода с предыдущего value была пропущена и его значение не поменялось
                     if (lastN != n) {
                         const savedN = n;
-                        n = lastN; // Возвращение к предыдущему значению n
+                        n = lastN;
                         sliderElem.setAttribute('data-value' + n, otherValue);
                         lastN = n = savedN;
                     }
@@ -433,7 +313,6 @@ function activate(...args) {
                     valueOutput.style.left = marker.offsetWidth / 2 - valueOutput.offsetWidth / 2 + 'px';
 
                     changeSelectedRange();
-                    displayData();
                 }
             }
 
@@ -453,21 +332,8 @@ function activate(...args) {
             selectedRange.style.left = xStartPos + 'px';
             selectedRange.style.width = width + 'px';
         }
-
-        function displayData() {
-            dataOutput.firstElementChild.innerHTML = '<b>Range slider data:</b>';
-            dataInfo.innerHTML = 'Ratio = ' + ratio.toFixed(2);
-            dataInfo.innerHTML += '<br>Marker 1 | x = ' + parseInt(marker1.style.left);
-            dataInfo.innerHTML += '<br>Marker 1 | ScaleX = ' + marker1.dataset.scaleX;
-            dataInfo.innerHTML += '<br>Marker 2 | x = ' + parseInt(marker2.style.left);
-            dataInfo.innerHTML += '<br>Marker 2 | ScaleX = ' + marker2.dataset.scaleX;
-            dataInfo.innerHTML += '<br>Slider | Value 1 = ' + sliderElem.dataset.value1;
-            dataInfo.innerHTML += '<br>Slider | Value 2 = ' + sliderElem.dataset.value2;
-        }
     }
 }
-
-///////////////////////////////////////////////////////////////////////////////////////
 
 function disable(...sliders) {
     for (let sliderElem of sliders) {
@@ -489,8 +355,6 @@ function disable(...sliders) {
         }
     }
 }
-
-///////////////////////////////////////////////////////////////////////////////////////
 
 function enable(...sliders) {
     for (let sliderElem of sliders) {

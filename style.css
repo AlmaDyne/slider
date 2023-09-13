@@ -8,51 +8,34 @@ html {
 }
 body {
     width: 100%;
-    height: 100%;
+    min-width: 768px;
+    min-height: 100%;
+    border: 5px solid #00ffbf;
+    box-sizing: border-box;
+}
+body:first-of-type {
+    padding-top: 50px;
 }
 
-#base-elem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    top: 0;
-    left: calc(50% - 300px/2);
-    height: 300px;
-    width: 300px;
-    background-color: #fbff00;
-    color:#315366;
-    font-size: 24pt;
-    cursor: pointer;
-    border: 3px solid;
-    box-sizing: border-box;
-    user-select: none;
-}
-#base-elem:active {
-    background-color: #ffe600;
-}
-#base-elem > p {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-    text-align: center;
-}
-#base-elem > .base-info {
-    width: 250px;
-    margin-top: 20px;
-    font-size: 17pt;
-    opacity: 0.8;
+.slider-name {
+    color: #0000ff;
+    font-size: 14pt;
+    margin-right: 8px;
 }
 
 .slider-block {
-    padding: 100px 20px 50px;
+    padding-bottom: 50px;
     text-align: center;
 }
 
 .parameters {
     display: inline-block;
+    width: 264px;
     margin-right: 50px;
-    padding: 5px;
     text-align: right;
+    vertical-align: middle;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
 }
 .parameters > label {
     display: block;
@@ -62,57 +45,97 @@ body {
     width: 50px;
     padding: 2px;
 }
-.parameters > button {
+.parameters button {
+    width: 180px;
     margin: 3px;
-    margin-top: 10px;
     padding: 4px;
+}
+.parameters > div:first-of-type > button {
+    margin-top: 10px;
 }
 
 .slider {
     display: inline-block;
     width: 310px;
-    height: 17px;
+    height: 16px;
     position: relative;
-    top: -20px;
-    margin-top: 50px;
     border-radius: 5px;
-    background-color: rgb(0, 245, 0);
-    /*background: linear-gradient(to right bottom, #34ff21, #1dffff);*/
     text-align: center;
-    border: 1px solid #cfbbe0;
+    vertical-align: middle;
 }
 .slider > p {
-    margin-top: 12px;
-} 
-.thumb {
+    position: relative;
+    top: 40px;
+}
+.slider > .thumb {
     width: 10px;
     height: 28px;
-    position: relative;
+    position: absolute;
     left: 10px;
     top: -6px;
-    background-color: rgb(0, 0, 255);
-    border-radius: 3px;
+    background-color: #0000ff;
     cursor: pointer;
 }
-.thumb:hover {
+.slider > .thumb:hover {
     background-color: #6262ff;
 }
-.value-output {
+.slider > .thumb > .value-output {
+    position: absolute;
+    top: -22px;
     color: #ad2800;
     font-family: Calibri, 'Trebuchet MS', sans-serif;
     font-size: 12pt;
 }
 
-@media screen and (max-width: 650px) {
-    .slider-block {
-        padding-bottom: 150px;
-    }
-    .parameters {
-        margin-right: 0;
-    }
-    .slider {
-        display: block;
-        margin: auto;
-        top: 50px;
-    }
+.single {
+    margin-left: 8px; /* Для выравнивания всего блока .single-slider-block относительно .range-slider-block*/
+    background-color: rgb(0, 245, 0);
+    border: 1px solid #cfbbe0;
+}
+.single > .thumb {
+    border-radius: 3px;
+}
+
+.range {
+    background: linear-gradient(to right bottom, #34ff21, #1dffff);
+    border: 6px solid #cfbbe0;
+}
+.range > .selected-range {
+    width: 0;
+    height: 16px; /* Равняется высоте .slider */
+    position: absolute;
+    background-color: #ff1dbb;
+}
+.range > .thumb.left {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.range > .thumb.right {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.data-output {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 300px;
+    width: 300px;
+    margin: 0px auto 0;
+    background-color: #fbff00;
+    color:#315366;
+    font-size: 24pt;
+    border: 3px solid;
+    box-sizing: border-box;
+}
+.data-output > p {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+.data-output > .data-info {
+    width: 250px;
+    margin-top: 20px;
+    font-size: 17pt;
+    opacity: 0.8;
 }

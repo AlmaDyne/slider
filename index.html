@@ -2,25 +2,47 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Slider</title>
+        <title>Slider Bank</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <div class="slider-block">
+            <b class="slider-name">Single Slider</b>
             <div class="parameters">
-                <label>Min limit of range = <input id="param-min-range" type="number" value="60" min="0"></label>
-                <label>Max limit of range = <input id="param-max-range" type="number" value="180" min="0"></label>
-                <label>Value = <input id="param-value" type="number" value="80" min="0"></label>
-                <label>Step = <input id="param-step" type="number" value="6" min="1"></label>
-                <button id="options"><b>Set slider parameters</b></button>
+                <label>Min limit of range = <input id="param-single-min-range" type="number" value="50"></label>
+                <label>Max limit of range = <input id="param-single-max-range" type="number" value="200"></label>
+                <label>Value in range = <input id="param-single-value" type="number" value="80"></label>
+                <label>Step = <input id="param-single-step" type="number" value="6"></label>
+                <div><button id="btn-active-single"><b>Set new slider parameters</b></button></div>
+                <div><button id="btn-disable-single" disabled><b>Disable slider</b></button></div>
+                <div><button id="btn-enable-single" disabled><b>Enable slider</b></button></div>
             </div>
-            <div id="slider" class="slider">
+            <div id="single-slider" class="slider single">
                 <div class="thumb"></div>
                 <p>Length = 300px</p>
             </div>
         </div>
-        <div id="base-elem">
-            <p><b>Score:</b></p>
+        <div class="slider-block">
+            <b class="slider-name">Range Slider</b>
+            <div class="parameters">
+                <label>Min limit of full range = <input id="param-range-min-range" type="number" value="0"></label>
+                <label>Max limit of full range = <input id="param-range-max-range" type="number" value="100"></label>
+                <label>Min value of selected range = <input id="param-range-value1" type="number" value="25"></label>
+                <label>Max value of selected range = <input id="param-range-value2" type="number" value="60"></label>
+                <label>Step = <input id="param-range-step" type="number" value="5"></label>
+                <div><button id="btn-active-range"><b>Set new slider parameters</b></button></div>
+                <div><button id="btn-disable-range" disabled><b>Disable slider</b></button></div>
+                <div><button id="btn-enable-range" disabled><b>Enable slider</b></button></div>
+            </div>
+            <div id="range-slider" class="slider range">
+                <div class="selected-range"></div>
+                <div class="thumb"></div>
+                <div class="thumb"></div>
+                <p>Length = 300px</p>
+            </div>
+        </div>
+        <div id="data-output" class="data-output">
+            <p><b>Data output:</b></p>
         </div>
         <script src="script.js"></script>
     </body>
