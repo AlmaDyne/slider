@@ -1,5 +1,11 @@
 'use strict';
 
+const sliderBank = {
+    activate,
+    disable,
+    enable
+};
+
 const dataOutput = document.getElementById('data-output');
 dataOutput.insertAdjacentHTML('beforeend', '<p class="data-info">(Not setted)</p>');
 const dataInfo = document.querySelector('.data-info');
@@ -15,9 +21,6 @@ const btnEnableSingle = document.getElementById('btn-enable-single');
 
 btnActiveSingle.onclick = () => {
     sliderBank.enable(singleSlider);
-
-    dataOutput.querySelector('.data-output > .data-info').style.textAlign = 'left';
-    dataOutput.querySelector('.data-output > .data-info').style.marginLeft = '30px';
 
     sliderBank.activate(
         singleSlider,
@@ -45,7 +48,7 @@ btnEnableSingle.onclick = () => {
     btnEnableSingle.disabled = true;
 };
 
-//sliderBank.activate(singleSlider, 1, 0, 200, 100, 1, true);
+sliderBank.activate(singleSlider, 1, 0, 300, 150, 1, true);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,9 +70,6 @@ btnActiveRange.onclick = () => {
         marker.innerHTML = '';
         marker.className = 'thumb';
     });
-
-    dataOutput.querySelector('#data-output > .data-info').style.textAlign = 'left';
-    dataOutput.querySelector('#data-output > .data-info').style.marginLeft = '30px';
 
     sliderBank.activate(
         rangeSlider,
@@ -97,15 +97,17 @@ btnEnableRange.onclick = () => {
     btnEnableRange.disabled = true;
 };
 
-//sliderBank.activate(rangeSlider, 2, 0, 100, 75, 25, 1);
+sliderBank.activate(rangeSlider, 2, 0, 300, 100, 200, 1);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-const sliderBank = {
-    activate,
-    disable,
-    enable
-};
+dataOutput.firstElementChild.innerHTML = '<b>Data output:</b>';
+dataInfo.innerHTML = '(Not setted)';
+
+dataInfo.style.textAlign = '';
+dataInfo.style.marginLeft = '';
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 function activate(...args) {
     const type = args[1]; // Type of slider
@@ -266,6 +268,9 @@ function activate(...args) {
             dataInfo.innerHTML += '<br>Marker | x = ' + parseInt(marker.style.left);
             dataInfo.innerHTML += '<br>Marker | ScaleX = ' + scaleX;
             dataInfo.innerHTML += '<br>Slider | Value = ' + sliderElem.dataset.value;
+
+            dataInfo.style.textAlign = 'left';
+            dataInfo.style.marginLeft = '30px';
         }
     }
 
@@ -463,6 +468,9 @@ function activate(...args) {
             dataInfo.innerHTML += '<br>Marker 2 | ScaleX = ' + marker2.dataset.scaleX;
             dataInfo.innerHTML += '<br>Slider | Value 1 = ' + sliderElem.dataset.value1;
             dataInfo.innerHTML += '<br>Slider | Value 2 = ' + sliderElem.dataset.value2;
+
+            dataInfo.style.textAlign = 'left';
+            dataInfo.style.marginLeft = '30px';
         }
     }
 }
