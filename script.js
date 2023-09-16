@@ -15,12 +15,16 @@ const paramSingleValue = document.getElementById('param-single-value');
 const paramSingleMinLimit = document.getElementById('param-single-min-range');
 const paramSingleMaxLimit = document.getElementById('param-single-max-range');
 const paramSingleStep = document.getElementById('param-single-step');
+const paramSingleShowValue = document.getElementById('param-single-show-value');
 const btnActiveSingle = document.getElementById('btn-active-single');
 const btnDisableSingle = document.getElementById('btn-disable-single');
 const btnEnableSingle = document.getElementById('btn-enable-single');
 
 btnActiveSingle.onclick = () => {
     sliderBank.enable(singleSlider);
+
+    const marker = singleSlider.querySelector('.thumb');
+    marker.innerHTML = '';
 
     sliderBank.activate(
         singleSlider,
@@ -29,7 +33,7 @@ btnActiveSingle.onclick = () => {
         +paramSingleMaxLimit.value,
         +paramSingleValue.value,
         +paramSingleStep.value,
-        true
+        (paramSingleShowValue.value == 'true') ? true : false
     );
 
     btnDisableSingle.disabled = false;
@@ -48,7 +52,7 @@ btnEnableSingle.onclick = () => {
     btnEnableSingle.disabled = true;
 };
 
-sliderBank.activate(singleSlider, 1, 0, 300, 150, 1, true);
+sliderBank.activate(singleSlider, 1, 0, 300, 150, 1);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,7 +142,7 @@ function activate(...args) {
         const maxValue = Math.floor(scaleRange / step) * step + minValue;
         const SHOW_VALUE_TIME_DELAY = 200;
         let valueOutput;
-        let showValueTimer = null;
+        let showValueTimer;
 
         value = Math.round((value - minValue) / step) * step + minValue;
         if (value < minLimit) value = minValue;
@@ -166,6 +170,8 @@ function activate(...args) {
             valueOutput.className = 'value-output';
             valueOutput.hidden = true;
             marker.append(valueOutput);
+        } else {
+            marker.innerHTML = '';
         }
 
         sliderElem.ondragstart = () => false;
@@ -179,7 +185,7 @@ function activate(...args) {
 
             displayData();
 
-            if (valueOutput) {
+            if (showValue) {
                 clearTimeout(showValueTimer);
 
                 valueOutput.hidden = false;
@@ -220,7 +226,7 @@ function activate(...args) {
                     marker.style.left = x + 'px';
 
                     sliderElem.setAttribute('data-value', value);
-                    if (valueOutput) {
+                    if (showValue) {
                         valueOutput.innerHTML = sliderElem.dataset.value;
                         valueOutput.style.left = marker.offsetWidth / 2 - valueOutput.offsetWidth / 2 + 'px';
                     }
@@ -236,7 +242,7 @@ function activate(...args) {
                 marker.removeEventListener('pointermove', moveMarker);
                 marker.removeEventListener('pointerup', releaseMarker);
 
-                if (valueOutput) showValueTimer = setTimeout(() => valueOutput.hidden = true, SHOW_VALUE_TIME_DELAY);
+                if (showValue) showValueTimer = setTimeout(() => valueOutput.hidden = true, SHOW_VALUE_TIME_DELAY);
             }
         }
 

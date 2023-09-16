@@ -62,6 +62,8 @@ function activate(...args) {
             valueOutput.className = 'value-output';
             valueOutput.hidden = true;
             marker.append(valueOutput);
+        } else {
+            marker.innerHTML = '';
         }
 
         sliderElem.ondragstart = () => false;
@@ -73,7 +75,7 @@ function activate(...args) {
             if (event.target != marker) return;
             if (sliderElem.hasAttribute('data-disabled')) return;
 
-            if (valueOutput) {
+            if (showValue) {
                 clearTimeout(showValueTimer);
 
                 valueOutput.hidden = false;
@@ -114,7 +116,7 @@ function activate(...args) {
                     marker.style.left = x + 'px';
 
                     sliderElem.setAttribute('data-value', value);
-                    if (valueOutput) {
+                    if (showValue) {
                         valueOutput.innerHTML = sliderElem.dataset.value;
                         valueOutput.style.left = marker.offsetWidth / 2 - valueOutput.offsetWidth / 2 + 'px';
                     }
@@ -129,7 +131,7 @@ function activate(...args) {
                 marker.removeEventListener('pointermove', moveMarker);
                 marker.removeEventListener('pointerup', releaseMarker);
 
-                if (valueOutput) showValueTimer = setTimeout(() => valueOutput.hidden = true, SHOW_VALUE_TIME_DELAY);
+                if (showValue) showValueTimer = setTimeout(() => valueOutput.hidden = true, SHOW_VALUE_TIME_DELAY);
             }
         }
 

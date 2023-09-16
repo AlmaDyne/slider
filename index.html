@@ -13,8 +13,14 @@
                 <label>Max limit of range = <input id="param-single-max-range" type="number" value="200"></label>
                 <label>Value in range = <input id="param-single-value" type="number" value="80"></label>
                 <label>Step = <input id="param-single-step" type="number" value="6"></label>
+                <label>Show value under marker – 
+                    <select id="param-single-show-value">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </label>
                 <div><button id="btn-active-single"><b>Set new slider parameters</b></button></div>
-                <div><button id="btn-disable-single" disabled><b>Disable slider</b></button></div>
+                <div><button id="btn-disable-single"><b>Disable slider</b></button></div>
                 <div><button id="btn-enable-single" disabled><b>Enable slider</b></button></div>
             </div>
             <div id="single-slider" class="slider single">
@@ -31,7 +37,7 @@
                 <label>Max value of selected range = <input id="param-range-value2" type="number" value="60"></label>
                 <label>Step = <input id="param-range-step" type="number" value="5"></label>
                 <div><button id="btn-active-range"><b>Set new slider parameters</b></button></div>
-                <div><button id="btn-disable-range" disabled><b>Disable slider</b></button></div>
+                <div><button id="btn-disable-range"><b>Disable slider</b></button></div>
                 <div><button id="btn-enable-range" disabled><b>Enable slider</b></button></div>
             </div>
             <div id="range-slider" class="slider range">
